@@ -3,6 +3,9 @@ package example.com.rxbtc.bithumb.json
 import com.google.gson.annotations.SerializedName
 
 data class BithumbStockData(
+//        @Transient
+        val stockSymbol: String,
+
         @SerializedName("opening_price")
         val openingPrice: String,
         @SerializedName("closing_price")

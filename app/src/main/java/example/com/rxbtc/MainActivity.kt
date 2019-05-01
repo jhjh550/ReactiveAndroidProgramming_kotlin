@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import com.pushtorefresh.storio.sqlite.StorIOSQLite
 import example.com.rxbtc.bithumb.RetrofitBithumbServiceFactory
+import example.com.rxbtc.storio.StorIOFactory
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -26,12 +28,14 @@ class MainActivity : AppCompatActivity() {
                     bithumbService.getTicker("BTC").toObservable()
                 }
                 .subscribeOn(Schedulers.io())
+                .map(StockUpdate.Companion::create)
+                .doOnNext(this::saveStockUpdate)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { data ->
-                    myLog(data.toString())
+                .subscribe { stockUpdate ->
+//                    myLog(stockUpdate.toString())
 
                     val myAdapter = myRecyclerView.adapter as StockDataAdapter
-                    myAdapter.add( StockUpdate.create("BTC", data.data))
+                    myAdapter.add(stockUpdate)
                 }
 
 
@@ -39,6 +43,19 @@ class MainActivity : AppCompatActivity() {
         myRecyclerView.adapter = StockDataAdapter()
     }
 
+    private fun saveStockUpdate(stockUpdate: StockUpdate){
+        myLog("saveStockUpdate", stockUpdate.stockSymbol)
+
+        val storIOSqlite = StorIOFactory.get(this)
+        if(storIOSqlite != null){
+            storIOSqlite
+                    .put()
+                    .`object`(stockUpdate)
+                    .prepare()
+                    .asRxSingle()
+                    .subscribe()
+        }
+    }
 
     private fun myLog(throwable: Throwable) {
         Log.e("APP", "Error", throwable)

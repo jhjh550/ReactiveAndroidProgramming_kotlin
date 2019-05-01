@@ -28,8 +28,16 @@ class StockDataAdapter : RecyclerView.Adapter<StockUpdateViewHolder>(){
         }
     }
 
-    fun add(item: StockUpdate){
-        data.add(item)
+    fun add(newItem: StockUpdate){
+        for(item in data){
+            if(item.stockSymbol.equals(newItem.stockSymbol)){
+                if(item.price == newItem.price)
+                    return
+                break
+            }
+        }
+
+        data.add(newItem)
         notifyItemInserted(data.size - 1)
     }
 }

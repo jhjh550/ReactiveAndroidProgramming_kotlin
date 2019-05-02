@@ -50,4 +50,27 @@ dependencies {
     implementation 'com.pushtorefresh.storio:content-resolver-annotations:1.12.1'
     annotationProcessor 'com.pushtorefresh.storio:sqlite-annotations-processor:1.12.1'
 
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.1.0'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
+   /*
+    implementation 'com.trello.rxlifecycle3:rxlifecycle:3.0.0'
+
+// If you want to bind to Android-specific lifecycles
+    implementation 'com.trello.rxlifecycle3:rxlifecycle-android:3.0.0'
+
+// If you want pre-written Activities and Fragments you can subclass as providers
+    implementation 'com.trello.rxlifecycle3:rxlifecycle-components:3.0.0'
+
+// If you want pre-written support preference Fragments you can subclass as providers
+    implementation 'com.trello.rxlifecycle3:rxlifecycle-components-preference:3.0.0'
+
+// If you want to use Android Lifecycle for providers
+    implementation 'com.trello.rxlifecycle3:rxlifecycle-android-lifecycle:3.0.0'
+
+// If you want to use Kotlin syntax
+    implementation 'com.trello.rxlifecycle3:rxlifecycle-kotlin:3.0.0'
+
+// If you want to use Kotlin syntax with Android Lifecycle
+    implementation 'com.trello.rxlifecycle3:rxlifecycle-android-lifecycle-kotlin:3.0.0'
+*/
 }

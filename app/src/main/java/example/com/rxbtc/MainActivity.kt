@@ -1,11 +1,13 @@
 package example.com.rxbtc
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
 import com.pushtorefresh.storio.sqlite.queries.Query
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import example.com.rxbtc.Utils.Companion.myLog
 import example.com.rxbtc.bithumb.RetrofitBithumbServiceFactory
 import example.com.rxbtc.bithumb.json.BithumbOneStockResult
@@ -20,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : RxAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,15 +31,17 @@ class MainActivity : AppCompatActivity() {
         //ExceptionDemo.demo2()
 
         RxJavaPlugins.setErrorHandler(ErrorHandler.instance)
+        bithumbInit()
 
+    }
 
-
-
+    fun bithumbInit(){
         val bithumbService = RetrofitBithumbServiceFactory().create()
         Observable.interval(0,5, TimeUnit.SECONDS)
+                .compose(bindToLifecycle())
                 .flatMap {
-                    //bithumbService.getTicker("BTC").toObservable()
-                    Observable.error<BithumbOneStockResult>(RuntimeException("Oops"))
+                    bithumbService.getTicker("BTC").toObservable()
+//                    Observable.error<BithumbOneStockResult>(RuntimeException("Oops"))
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

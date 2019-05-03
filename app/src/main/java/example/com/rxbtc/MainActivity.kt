@@ -1,5 +1,6 @@
 package example.com.rxbtc
 
+import android.net.wifi.hotspot2.pps.Credential
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -8,6 +9,7 @@ import android.widget.Toast
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import example.com.rxbtc.Utils.Companion.myLog
 import example.com.rxbtc.bithumb.RetrofitBithumbServiceFactory
+import example.com.rxbtc.demo.ObservableDemo
 import example.com.rxbtc.storio.StorIOFactory
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -22,11 +24,13 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : RxAppCompatActivity() {
 
+    var stockDataAdapter:StockDataAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //ExceptionDemo.demo2()
+//        ObservableDemo.demo4()
 
         RxJavaPlugins.setErrorHandler(ErrorHandler.instance)
         bithumbInit()
@@ -94,17 +98,17 @@ class MainActivity : RxAppCompatActivity() {
 
         val configuration = ConfigurationBuilder()
                     .setDebugEnabled(true)
-                    .setOAuthConsumerKey("")
-                    .setOAuthConsumerSecret("")
-                    .setOAuthAccessToken("")
-                    .setOAuthAccessTokenSecret("")
+                    .setOAuthConsumerKey(TWITTER_API_KEY)
+                    .setOAuthConsumerSecret(TWITTER_API_KEY_SECRET)
+                    .setOAuthAccessToken(TWITTER_ACCESS_TOKEN)
+                    .setOAuthAccessTokenSecret(TWITTER_ACCESS_TOKEN_SECRET)
                     .build()
 
             val filterQuery = FilterQuery().track("bitcoin").language("en")
 
         val bithumbService = RetrofitBithumbServiceFactory().create()
         Observable.merge(
-                Observable.interval(0,10, TimeUnit.SECONDS)
+                Observable.interval(0,5, TimeUnit.SECONDS)
                         .flatMap { bithumbService.getTicker("BTC").toObservable() }
                         .map(StockUpdate.Companion::create),
 
@@ -138,20 +142,21 @@ class MainActivity : RxAppCompatActivity() {
 //                            .flatMap(Observable::fromIterable)
 //                }
                 .observeOn(AndroidSchedulers.mainThread())
+                .filter{ update -> !stockDataAdapter!!.contains(update)}
                 .subscribe ({ stockUpdate ->
-                    val myAdapter = myRecyclerView.adapter as StockDataAdapter
-                    myAdapter.add(stockUpdate)
+                    stockDataAdapter?.add(stockUpdate)
                     myRecyclerView.smoothScrollToPosition(0)
 
                     no_data_available.visibility = View.GONE
                 }, { error ->
-                    if(myRecyclerView.adapter?.itemCount == 0 )
+                    if(stockDataAdapter?.itemCount == 0 )
                         no_data_available.visibility = View.VISIBLE
                 })
 
 
         myRecyclerView.layoutManager = LinearLayoutManager(this.applicationContext)
-        myRecyclerView.adapter = StockDataAdapter()
+        stockDataAdapter = StockDataAdapter()
+        myRecyclerView.adapter = stockDataAdapter
     }
 
     private fun saveStockUpdate(stockUpdate: StockUpdate){

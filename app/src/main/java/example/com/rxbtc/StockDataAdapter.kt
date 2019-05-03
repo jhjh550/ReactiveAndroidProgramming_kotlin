@@ -42,4 +42,30 @@ class StockDataAdapter : RecyclerView.Adapter<StockUpdateViewHolder>(){
         data.add(0, newItem)
         notifyItemInserted(0)
     }
+
+    fun contains(newItem: StockUpdate): Boolean{
+        for(item in data){
+            if(item.stockSymbol.equals(newItem.stockSymbol)){
+                if(item.price.equals(newItem.price)
+                        && item.twitterStatus.equals(newItem.twitterStatus)){
+                    return true
+                }
+                break
+            }
+        }
+        return false
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

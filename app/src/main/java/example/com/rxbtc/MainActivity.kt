@@ -94,10 +94,10 @@ class MainActivity : RxAppCompatActivity() {
 
         val configuration = ConfigurationBuilder()
                     .setDebugEnabled(true)
-                    .setOAuthConsumerKey("wx9VMgTsptWBhBhB8iZ1lg")
-                    .setOAuthConsumerSecret("Fcz42EgFNnrBg6l8szMUd5shnmEDf0Pziep2I1S3yI")
-                    .setOAuthAccessToken("559333301-TWRqEEC9us0wYzkJ7kF9IfaCEJGKvRtMul28VHDF")
-                    .setOAuthAccessTokenSecret("OzomATIA3n5d42jnyCCmK3HTKPcq1WFsjf1yjlhEto")
+                    .setOAuthConsumerKey("")
+                    .setOAuthConsumerSecret("")
+                    .setOAuthAccessToken("")
+                    .setOAuthAccessTokenSecret("")
                     .build()
 
             val filterQuery = FilterQuery().track("bitcoin").language("en")

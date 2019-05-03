@@ -10,6 +10,7 @@ class StockUpdateTable {
         val STOCK_SYMBOL = "stock_symbol"
         val PRICE = "price"
         val DATE = "date"
+        val TWITTER_STATUS = "twitter_status"
 
 
         fun createTableQuery(): String{
@@ -17,7 +18,8 @@ class StockUpdateTable {
                     ID+" integer primary key autoincrement, "+
                     STOCK_SYMBOL+" text not null, "+
                     PRICE+" long not null, "+
-                    DATE+" long not null)";
+                    DATE+" long not null, " +
+                    TWITTER_STATUS + " text null)";
 
             Log.d("query", str)
             return str

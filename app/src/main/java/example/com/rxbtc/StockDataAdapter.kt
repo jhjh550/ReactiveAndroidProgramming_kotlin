@@ -24,20 +24,22 @@ class StockDataAdapter : RecyclerView.Adapter<StockUpdateViewHolder>(){
                 stockItemSymbol.text = item.stockSymbol
                 stockItemPrice.text = PRICE_FORMAT.format(item.price)
                 stockItemDate.text = dateFormat.format(item.date)
+                twitterStatus.text = item.twitterStatus
+                setIsStatusUpdate(item.isTwitterStatusUpdate())
             }
         }
     }
 
     fun add(newItem: StockUpdate){
-        for(item in data){
-            if(item.stockSymbol.equals(newItem.stockSymbol)){
-                if(item.price == newItem.price)
-                    return
-                break
-            }
-        }
+//        for(item in data){
+//            if(item.stockSymbol.equals(newItem.stockSymbol)){
+//                if(item.price == newItem.price)
+//                    return
+//                break
+//            }
+//        }
 
-        data.add(newItem)
-        notifyItemInserted(data.size - 1)
+        data.add(0, newItem)
+        notifyItemInserted(0)
     }
 }

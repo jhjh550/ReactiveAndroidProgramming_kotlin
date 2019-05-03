@@ -27,6 +27,7 @@ class StockUpdatePutResolver: DefaultPutResolver<StockUpdate>() {
         values.put(StockUpdateTable.STOCK_SYMBOL, entity.stockSymbol)
         values.put(StockUpdateTable.PRICE, entity.price.toLong())
         values.put(StockUpdateTable.DATE, entity.date.time)
+        values.put(StockUpdateTable.TWITTER_STATUS, entity.twitterStatus)
 
         return values
     }

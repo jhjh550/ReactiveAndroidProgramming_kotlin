@@ -12,10 +12,11 @@ class StockUpdateGetResolver: DefaultGetResolver<StockUpdate>() {
         val dateLong = cursor.getLong( cursor.getColumnIndexOrThrow(StockUpdateTable.DATE))
         val priceLong = cursor.getLong( cursor.getColumnIndexOrThrow(StockUpdateTable.PRICE))
         val stockSymbol = cursor.getString( cursor.getColumnIndexOrThrow(StockUpdateTable.STOCK_SYMBOL))
+        val twitterStatus = cursor.getString( cursor.getColumnIndexOrThrow(StockUpdateTable.TWITTER_STATUS))
 
         val date = Date(dateLong)
         val price = BigDecimal(priceLong)
-        val stockUpdate = StockUpdate(stockSymbol, price, date)
+        val stockUpdate = StockUpdate(stockSymbol, price, date, twitterStatus)
         stockUpdate.id = id
 
         return stockUpdate

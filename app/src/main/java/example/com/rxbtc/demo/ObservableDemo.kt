@@ -32,8 +32,8 @@ class ObservableDemo {
                             .doOnDispose { myLog("ziptest", "interval-onDispose") }
                             .doOnTerminate { myLog("ziptest", "interval-onTerminate") },
                     BiFunction { number:String, interval:Long -> number+" - "+interval })
-                            .doOnDispose { myLog("ziptest", "zip-onDispose") }
-                            .doOnTerminate { myLog("ziptest", "zip-onTerminate") }
+                    .doOnDispose { myLog("ziptest", "zip-onDispose") }
+                    .doOnTerminate { myLog("ziptest", "zip-onTerminate") }
                     .subscribe { myLog("ziptest", it) }
 
         }
